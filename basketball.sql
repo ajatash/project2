@@ -1,6 +1,10 @@
+DROP VIEW second_view;
+DROP VIEW first_view;
+
 drop table players;
 drop table top_35;
 drop table stats;
+
 create table players (
 	Player TEXT,
 	Tm TEXT,
@@ -48,10 +52,18 @@ select * from players;
 select * from stats;
 
 
+CREATE VIEW first_view as 
+SELECT top_35.*, stats.g
+FROM top_35
+JOIN stats
+ON top_35.player = stats.player;
 
-SELECT customer_name.id, customer_name.first_name, customer_name.last_name, customer_location.address, customer_location.us_state
-FROM customer_name
-JOIN customer_location
-ON customer_name.id = customer_location.id;
+select * from first_view;
 
+CREATE VIEW second_view as 
+SELECT first_view.*, players.tm
+FROM first_view
+JOIN players
+ON first_view.player = players.player;
 
+SELECT * FROM second_view;
